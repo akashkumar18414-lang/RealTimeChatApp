@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<link rel="stylesheet" th:href="@{/css/error/500.css}">
+<title>500 – Something Went Wrong</title>
+</head>
+<body>
+<div class="page">
+  <main class="card" role="main" aria-labelledby="err-title">
+    <section class="content">
+      <!-- 500 -->
+      <div class="code" aria-hidden="true">
+        <span class="base">500</span>
+        <span class="r">500</span>
+        <span class="b">500</span>
+      </div>
+
+      <h1 id="err-title">Something Went Wrong</h1>
+      <p class="message">Our server is having a bad day. Please try again later.</p>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
+        <button id="reload" class="btn" type="button" aria-label="Reload this page">Reload →</button>
+      </div>
+      <p class="hint" id="easteregg-hint" role="note">Tip: Press “R” (or double‑click / long‑press the robot) to panic.</p>
+    </section>
+
+    <section class="illustration" aria-label="Illustration of a broken robot">
+      <button id="robotBtn" class="robot-btn" type="button" aria-label="Click to make the robot glitch" title="Click (or press Enter/Space) to glitch">
+        <!-- Inline SVG Robot -->
+        <svg id="robot-svg" viewBox="0 0 320 320" role="img" aria-labelledby="robot-title" focusable="false">
+          <title id="robot-title">Broken robot with sparks</title>
+
+          <!-- Body shadow -->
+          <ellipse cx="160" cy="298" rx="78" ry="12" fill="rgba(2,6,23,0.06)"></ellipse>
+
+          <!-- Full robot group (float anim target) -->
+          <g id="robot">
+            <!-- Antenna -->
+            <g id="antenna" transform="translate(0,-4)">
+              <line x1="160" y1="56" x2="160" y2="26" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="160" cy="22" r="8" fill="#93c5fd" stroke="#2563eb" stroke-width="3"/>
+            </g>
+
+            <!-- Head -->
+            <g id="head">
+              <rect x="90" y="60" rx="16" ry="16" width="140" height="110" fill="#f0f6ff" stroke="#3b82f6" stroke-width="4"/>
+              <!-- Faceplate -->
+              <rect id="face" x="104" y="76" rx="12" ry="12" width="112" height="78" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
+              <!-- Eyes: wrapper translates, inner blinks -->
+              <g id="eyes-wrap">
+                <g id="eyes" transform="translate(0,0)">
+                  <circle cx="132" cy="112" r="10" fill="#0f172a"/>
+                  <circle cx="188" cy="112" r="10" fill="#0f172a"/>
+                </g>
+              </g>
+              <!-- Mouth -->
+              <rect x="136" y="138" width="48" height="8" rx="4" fill="#93c5fd"/>
+            </g>
+
+            <!-- Sparks container (particles inserted here) -->
+            <g id="sparks" transform="translate(160,52)"></g>
+
+            <!-- Body -->
+            <g id="body">
+              <rect x="110" y="172" rx="18" ry="18" width="100" height="110" fill="#f3f7ff" stroke="#3b82f6" stroke-width="4"/>
+              <!-- Chest panel -->
+              <rect x="124" y="188" rx="10" ry="10" width="72" height="36" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
+              <!-- Status lights -->
+              <circle cx="140" cy="206" r="4" fill="#22c55e"/>
+              <circle cx="158" cy="206" r="4" fill="#f59e0b"/>
+              <circle cx="176" cy="206" r="4" fill="#ef4444"/>
+              <!-- Arms -->
+              <rect x="86" y="184" width="18" height="72" rx="9" fill="#e5e7eb" stroke="#cbd5e1" stroke-width="2"/>
+              <rect x="216" y="184" width="18" height="72" rx="9" fill="#e5e7eb" stroke="#cbd5e1" stroke-width="2"/>
+            </g>
+          </g>
+        </svg>
+      </button>
+    </section>
+  </main>
+</div>
+<script th:src="@{/js/error/500.js}"></script>
+</body>
+</html>

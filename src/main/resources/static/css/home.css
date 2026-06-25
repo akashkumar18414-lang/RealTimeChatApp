@@ -1,0 +1,156 @@
+:root {
+	--accent: #0d6efd;
+	--bg: #f4f6f8;
+	--card: #fff;
+	--muted: #6c757d;
+	--radius: .75rem;
+}
+
+[data-theme="dark"] {
+	--bg: #0b1220;
+	--bs-body-bg: #0b1220;
+	--card: #0f1720;
+	--muted: #9aa4ad;
+	--accent: #3b82f6;
+	color-scheme: dark;
+	color: #e6eef8;
+}
+
+body {
+	background: var(--bg);
+	font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	margin: 0;
+}
+
+.app-card {
+	border-radius: var(--radius);
+	border: 1px solid rgba(15, 23, 42, 0.04);
+	box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="dark"] .app-card {
+	border-color: rgba(255, 255, 255, 0.04);
+	box-shadow: 0 6px 20px rgba(1, 1, 1, 0.5);
+}
+
+[data-theme="dark"] .navbar-brand,
+[data-theme="dark"] select,
+[data-theme="dark"] option,
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] input:focus,
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder,
+[data-theme="dark"] span,
+[data-theme="dark"] div>.text-muted {
+	color: #e6eef8 !important;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+	background-color: var(--muted);
+}
+
+.avatar {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	display: inline-grid;
+	place-items: center;
+	color: #fff;
+	background: linear-gradient(135deg, var(--accent), #0b5ed7);
+	font-weight: 600;
+}
+
+.room-card {
+	border-radius: .6rem;
+	transition: transform .14s ease, box-shadow .14s ease;
+	background: var(--card);
+	border: 1px solid rgba(15, 23, 42, 0.04);
+	position: relative;
+	overflow: visible;
+}
+
+.scroll-area {
+	max-height: 420px;
+	/* adjust to your design */
+	overflow-y: auto;
+	padding-right: 6px;
+	/* prevents scrollbar overlap */
+	min-height: auto;
+}
+
+.scroll-area:has(.dropdown-menu.show) {
+	min-height: 170px;
+}
+
+.scroll-area::-webkit-scrollbar {
+	width: 6px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+	background: #cfd8dc;
+	border-radius: 4px;
+}
+
+.toast {
+	border-radius: .75rem;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+}
+
+@media (hover:hover) and (pointer:fine) {
+	.room-card:hover {
+		box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+	}
+}
+
+.focus-ring:focus-within {
+	outline: 3px solid rgba(13, 110, 253, 0.12);
+	outline-offset: 3px;
+}
+
+.space-between {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}
+
+.count-badge {
+	color: var(--muted);
+	font-size: .95rem;
+}
+
+/* layout */
+.search-input {
+	max-width: 360px;
+}
+
+@media (max-width:991px) {
+	main .row {
+		flex-direction: column-reverse;
+	}
+
+	.search-input {
+		max-width: 100%;
+	}
+}
+
+/* buttons in list header */
+.list-header-actions {
+	display: flex;
+	gap: .5rem;
+	align-items: center;
+}
+
+/* public rooms modal list */
+.public-rooms-list {
+	max-height: 50vh;
+	overflow: auto;
+}
+
+/* small responsive tweaks */
+.btn-compact {
+	padding: .35rem .5rem;
+	font-size: .9rem;
+}

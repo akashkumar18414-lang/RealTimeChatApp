@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<title>ChatApp — Home</title> <!-- Bootstrap CSS -->
+	<link th:href="@{/css/home.css}" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<style>
+		.btn-group>.btn:first-child,
+		.btn-group>.btn:last-child {
+			border-radius: .375rem;
+		}
+
+		.dropdown-menu {
+			--bs-dropdown-min-width: 7rem important;
+		}
+	</style>
+</head>
+
+<body data-theme="light">
+	<!-- NAVBAR : minimal, search on the right -->
+	<nav class="navbar navbar-light border-bottom">
+		<div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+			<div class="d-flex align-items-center gap-3">
+				<a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
+					<span class="badge bg-primary rounded-pill p-2">
+						<i class="bi bi-chat-dots-fill fs-5"></i>
+					</span>
+					<span class="fw-semibold">Real-Time ChatApp</span>
+				</a>
+			</div>
+			<div class="d-flex align-items-center gap-2">
+				<!-- single search input (content area still has its search) -->
+				<div class="input-group search-input">
+					<span class="input-group-text bg-white border-end-0">
+						<i class="bi bi-search text-muted"></i>
+					</span>
+					<input id="globalSearch" class="form-control border-start-0" type="search"
+						placeholder="Search rooms..." aria-label="Search">
+				</div>
+				<!-- Theme toggle -->
+				<button class="btn btn-outline-secondary btn-sm" id="themeToggle" title="Toggle theme">
+					<i id="themeIcon" class="bi bi-moon"></i>
+				</button>
+				<!-- Profile -->
+				<div class="dropdown">
+					<button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2" id="userMenuBtn"
+						data-bs-toggle="dropdown">
+						<div class="avatar" th:text="${#strings.substring(user.fullName,0,1)}">L</div>
+						<span class="d-none d-sm-inline small-muted" th:text="${user.firstName}">Lucky</span>
+						<i class="bi bi-chevron-down small"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuBtn">
+						<li>
+							<a class="dropdown-item" th:href="@{/profile}">
+								<i class="bi bi-person-circle"></i>
+								<span>Profile</span>
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" th:href="@{/settings}">
+								<i class="bi bi-gear"></i>
+								<span>Settings</span>
+							</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li>
+							<form th:action="@{/logout}" method="post" class="m-2">
+								<button type="submit" class="btn btn-outline-danger w-100">
+									<i class="bi bi-box-arrow-right"></i>
+									<span>Logout</span>
+								</button>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav> <!-- MAIN -->
+	<main class="container-fluid py-5 px-4">
+		<div class="row gx-4">
+			<!-- SIDEBAR -->
+			<aside class="col-lg-3 mb-4">
+				<div class="p-4 app-card">
+					<div class="d-flex align-items-center gap-3">
+						<div class="avatar fs-4" th:text="${#strings.substring(user.fullName,0,1)}">L</div>
+						<div>
+							<div class="fw-semibold" th:text="${user.fullName}"></div>
+							<div class="small-muted" th:text="${user.email}">luckyroshan@gmail.com</div>
+						</div>
+					</div>
+					<div class="mt-3 d-grid gap-2">
+						<!-- secondary create -->
+						<button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+							data-bs-target="#createRoomModal">+ Create Room</button>
+						<button class="btn btn-light border btn-sm" data-bs-toggle="modal"
+							data-bs-target="#publicRoomsModal">Browse public rooms</button>
+					</div>
+				</div>
+				<div class="mt-4 p-3 app-card">
+					<div class="d-flex justify-content-between align-items-center">
+						<div class="fw-semibold">Quick actions</div>
+						<small class="small-muted">Shortcuts</small>
+					</div>
+					<div class="mt-3 d-grid gap-2">
+						<button class="btn btn-light border btn-sm" id="quickCreate" data-bs-toggle="modal"
+							data-bs-target="#createRoomModal">Create room</button>
+						<button class="btn btn-light border btn-sm" id="quickBrowse" data-bs-toggle="modal"
+							data-bs-target="#publicRoomsModal">Browse rooms</button>
+						<button class="btn btn-light border btn-sm" id="refreshRoomsBtn"
+							onclick="window.location.reload()">Refresh rooms</button>
+						<a class="btn btn-light border btn-sm" th:href="@{/chat/general}">Open General Chat</a>
+					</div>
+				</div>
+			</aside>
+			<!-- CONTENT -->
+			<section class="col-lg-9">
+				<div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-3">
+					<div>
+						<h2 class="h4 mb-0" th:text="'Welcome ' + ${user.firstName}"></h2>
+						<div class="small-muted">Create, join, or share chat rooms</div>
+					</div>
+				</div>
+				<!-- Top lists header with buttons moved near counts -->
+				<div class="row g-3 mb-4">
+					<div class="col-md-6">
+						<div class="app-card p-3">
+							<div class="space-between">
+								<div>
+									<div class="fw-semibold">Rooms created</div>
+									<div class="muted-small"
+										th:text="${myRooms != null ? myRooms.size() + ' rooms' : '0 rooms'}">0 rooms
+									</div>
+								</div>
+								<div class="list-header-actions">
+									<!-- create room next to the count -->
+									<button class="btn btn-sm btn-primary btn-compact" data-bs-toggle="modal"
+										data-bs-target="#createRoomModal">Create</button>
+								</div>
+							</div>
+							<div class="mt-3 scroll-area" id="createdRoomsContainer">
+								<div id="createdNoResults" class="text-muted small mt-2 no-res-found"
+									style="display:none;">
+									No matches found
+								</div>
+								<div th:if="${myRooms == null or #lists.isEmpty(myRooms)}" class="text-muted small">You
+									haven't created any rooms yet.
+								</div>
+								<div th:each="r : ${myRooms}" class="mb-2">
+									<div class="p-2 room-card d-flex justify-content-between align-items-center"
+										th:data-name="${#strings.toLowerCase(r.name)}"
+										th:data-description="${#strings.toLowerCase(r.description)}">
+										<div>
+											<div class="fw-semibold" th:text="${r.name}">Room name</div>
+											<div class="small-muted" th:text="${r.description}">Short description</div>
+										</div>
+										<div class="d-flex gap-4 align-items-center">
+											<div class="d-flex flex-column align-items-center p-2">
+												<small class="small-muted">
+													<i class="bi bi-people"></i>
+													<span th:classappend="${r.full} ? text-danger"
+														th:text="${r.memberCount + ' / ' + r.maxMembers}"></span>
+												</small>
+												<small class="small-muted">
+													<i class="bi bi-globe"></i>
+													<span th:text="${r.preferredCountry}"></span>
+												</small>
+											</div>
+											<!-- actions dropdown -->
+											<div class="btn-group">
+												<a class="btn btn-sm btn-outline-primary"
+													th:href="@{/chat/room/{id}(id=${r.id})}">
+													<i class="bi bi-box-arrow-up-right"></i>
+													<span>Open</span>
+												</a>
+												<button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+													data-bs-toggle="dropdown" aria-expanded="false"></button>
+												<ul class="dropdown-menu dropdown-menu-end">
+													<li>
+														<button class="dropdown-item" th:data-room-id="${r.id}"
+															onclick="openShareModal(this)">
+															<i class="bi bi-share"></i>
+															<span>Share</span>
+														</button>
+													</li>
+													<li>
+														<button class="dropdown-item" id="room-settings-btn"
+															th:data-room-id="${r.id}" th:data-room-name="${r.name}"
+															th:data-description="${r.description}"
+															th:data-visibility="${r.visibility}"
+															th:data-join-policy="${r.joinPolicy}"
+															th:data-preferred-country="${r.preferredCountry}"
+															th:data-max-members="${r.maxMembers}"
+															th:data-members-count="${r.memberCount}">
+															<i class="bi bi-gear"></i>
+															<span>Settings</span>
+														</button>
+													</li>
+													<li>
+														<form th:action="@{/deleteRoom/{roomId}(roomId=${r.id})}"
+															method="post">
+															<button type="button" class="dropdown-item" onclick="confirmAction(
+															            this.form,'Delete Room',
+																		'This will permanently delete the room. This action cannot be undone.',
+															            'btn-danger'
+															          )">
+																<i class="bi bi-trash"></i>
+																<span>Delete</span>
+															</button>
+														</form>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="app-card p-3">
+							<div class="space-between">
+								<div>
+									<div class="fw-semibold">Rooms joined</div>
+									<div class="muted-small"
+										th:text="${joinedRooms != null ? joinedRooms.size() + ' rooms' : '0 rooms'}">
+									</div>
+								</div>
+								<div class="list-header-actions"> <!-- browse public rooms next to the count --> <button
+										class="btn btn-sm btn-outline-secondary btn-compact" data-bs-toggle="modal"
+										data-bs-target="#publicRoomsModal">Browse</button> </div>
+							</div>
+							<div class="mt-3 scroll-area" id="joinedRoomsContainer">
+								<div id="joinedNoResults" class="text-muted small mt-2 no-res-found"
+									style="display:none;">
+									No matches found
+								</div>
+								<div th:if="${joinedRooms == null or #lists.isEmpty(joinedRooms)}"
+									class="text-muted small">You haven't
+									joined any rooms yet.</div>
+								<div th:each="r : ${joinedRooms}" class="mb-2">
+									<div class="p-2 room-card d-flex justify-content-between align-items-center"
+										th:data-name="${#strings.toLowerCase(r.name)}"
+										th:data-description="${#strings.toLowerCase(r.description)}">
+										<div>
+											<div class="fw-semibold" th:text="${r.name}">Joined name</div>
+											<div class="small-muted" th:text="${r.description}">Short description</div>
+										</div>
+										<div class="d-flex gap-4 align-items-center">
+											<div class="d-flex flex-column justify-content-left align-items-center p-2">
+												<small class="small-muted">
+													<i class="bi bi-people"></i>
+													<span th:classappend="${r.full} ? text-danger"
+														th:text="${r.memberCount + ' / ' + r.maxMembers}"></span>
+												</small>
+												<small class="small-muted">
+													<i class="bi bi-globe"></i>
+													<span th:text="${r.preferredCountry}"></span>
+												</small>
+											</div>
+											<!-- actions dropdown for joined rooms -->
+											<div class="btn-group position-static">
+												<a class="btn btn-sm btn-outline-primary"
+													th:href="@{/chat/room/{id}(id=${r.id})}">
+													<i class="bi bi-box-arrow-up-right"></i>
+													<span>Open</span>
+												</a>
+												<button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+													data-bs-toggle="dropdown" aria-expanded="false"></button>
+												<ul class="dropdown-menu dropdown-menu-end">
+													<li>
+														<button class="dropdown-item" th:data-room-id="${r.id}"
+															onclick="openShareModal(this)">
+															<i class="bi bi-share"></i>
+															<span>Share</span>
+														</button>
+													</li>
+													<li>
+														<form th:action="@{/leaveRoom/{roomId}(roomId=${r.id})}"
+															method="post" onsubmit="confirm('Are You Sure?')">
+															<button type="button" class="dropdown-item color-red"
+																onclick="confirmAction(
+															            this.form,
+															            'Leave Room',
+															            'Are you sure you want to leave this room?',
+															            'btn-danger'
+															          )">
+																<i class="bi bi-box-arrow-right"></i>
+																<span>Leave</span>
+															</button>
+														</form>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- Compact empty hero shown only if both lists empty (moved into content) -->
+				<div th:if="${(#lists.isEmpty(myRooms) and #lists.isEmpty(joinedRooms))}"
+					class="app-card p-4 text-center"> <i class="bi bi-chat-dots fs-1 text-muted"></i>
+					<h4 class="mt-2">No rooms yet</h4>
+					<p class="small-muted">Start by creating a room or explore public rooms to join.</p>
+					<div class="mt-3 d-flex justify-content-center gap-2">
+						<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createRoomModal">Create
+							room</button>
+						<button class="btn btn-outline-secondary" data-bs-toggle="modal"
+							data-bs-target="#publicRoomsModal">Browse public rooms</button>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main> <!-- CREATE ROOM MODAL -->
+	<div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomLabel" aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content app-card border-0">
+				<div class="modal-header">
+					<h5 class="modal-title" id="createRoomLabel">Create a new room</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<form th:action="@{/createRoom}" th:object="${createRoomDTO}" method="post" id="createRoomForm">
+					<div class="modal-body">
+						<div class="mb-3">
+							<label for="name" class="form-label">Room name</label>
+							<input name="name" id="name" th:field="*{name}" required maxlength="120" type="text"
+								class="form-control" placeholder="e.g., Frontend, Weekly Sync" autocomplete="true" />
+						</div>
+						<div class="mb-3">
+							<label for="description" class="form-label">Description</label>
+							<textarea name="description" id="description" th:field="*{description}" rows="3"
+								class="form-control" placeholder="Short description">
+							</textarea>
+						</div>
+						<div class="row g-2">
+							<div class="col-md-6 mb-3">
+								<label for="visibility" class="form-label">Visibility</label>
+								<select name="visibility" id-visibility th:field="*{visibility}" class="form-select"
+									required>
+									<option value="PUBLIC" selected>Public</option>
+									<option value="UNLISTED">Unlisted</option>
+								</select>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="joinPolicy" class="form-label">Join policy</label>
+								<select name="joinPolicy" id="joinPolicy" th:field="*{joinPolicy}" class="form-select"
+									required>
+									<option value="OPEN">Open</option>
+									<option value="REQUEST">Request</option>
+									<option value="CLOSED">Closed</option>
+								</select>
+							</div>
+						</div>
+						<div class="row g-2">
+							<div class="col-md-6 mb-3">
+								<label for="preferredCountry" class="form-label">Preferred country</label>
+								<select name="preferredCountry" id="preferredCountry" th:field="*{preferredCountry}"
+									class="form-select" required>
+									<option th:each="c : ${T(com.team.Spring.Enum.CountryEnum).values()}"
+										th:value="${c}" th:text="${c}">
+										IN</option>
+								</select>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="maxMembers" class="form-label">Max members</label>
+								<input name="maxMembers" id="maxMembers" th:field="*{maxMembers}" type="number" min="2"
+									max="5000" required class="form-control" placeholder="e.g., 200" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer"> <button type="button" class="btn btn-light"
+							data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary">Create
+							room</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- ROOM SETTINGS MODAL (edit room fields) -->
+	<div class="modal fade" id="roomSettingsModal" tabindex="-1" aria-labelledby="roomSettingsLabel" aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content app-card border-0">
+				<div class="modal-header">
+					<h5 class="modal-title" id="roomSettingsLabel">Room settings</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<!-- The form will be filled by openRoomSettings(id) JS function -->
+				<form id="roomSettingsForm" method="post" th:object="${createRoomDTO}">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+					<div class="modal-body">
+						<div class="mb-3">
+							<label for="settingsName" class="form-label">Room name</label>
+							<input name="name" id="settingsName" required maxlength="120" type="text" th:field="*{name}"
+								class="form-control" />
+						</div>
+						<div class="mb-3">
+							<label for="settingsDescription" class="form-label">Description</label>
+							<textarea name="description" th:field="*{description}" id="settingsDescription" rows="3"
+								class="form-control"></textarea>
+						</div>
+						<div class="row g-2">
+							<div class="col-md-6 mb-3">
+								<label for="settingsVisibility" class="form-label">Visibility</label>
+								<select name="visibility" th:field="*{visibility}" id="settingsVisibility"
+									class="form-select" required>
+									<option value="PUBLIC">Public</option>
+									<option value="UNLISTED">Unlisted</option>
+								</select>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="settingsJoinPolicy" class="form-label">Join policy</label>
+								<select name="joinPolicy" th:field="*{joinPolicy}" id="settingsJoinPolicy"
+									class="form-select" required>
+									<option value="OPEN">Open</option>
+									<option value="REQUEST">Request</option>
+									<option value="CLOSED">Closed</option>
+								</select>
+							</div>
+						</div>
+						<div class="row g-2">
+							<div class="col-md-6 mb-3">
+								<label for="settingsCountry" class="form-label">Preferred country</label>
+								<select name="preferredCountry" th:field="*{preferredCountry}" id="settingsCountry"
+									class="form-select" required>
+									<option th:each="c : ${T(com.team.Spring.Enum.CountryEnum).values()}"
+										th:value="${c}" th:text="${c}">
+									</option>
+								</select>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="settingsMaxMembers" class="form-label">Max members</label>
+								<input name="maxMembers" th:field="*{maxMembers}" id="settingsMaxMembers" type="number"
+									min="2" max="5000" required class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- PUBLIC ROOMS MODAL: includes preferred country filter -->
+	<div class="modal fade" id="publicRoomsModal" tabindex="-1" aria-labelledby="publicRoomsLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content app-card border-0">
+				<div class="modal-header">
+					<h5 class="modal-title" id="publicRoomsLabel">Browse public rooms</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row g-2 align-items-center mb-3">
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-text bg-white border-end-0">
+									<i class="bi bi-search text-muted"></i>
+								</span>
+								<input id="publicSearch" class="form-control border-start-0"
+									placeholder="Search public rooms..." />
+							</div>
+						</div>
+						<div class="col-md-3">
+							<select id="filterCountry" class="form-select">
+								<option value="">All countries</option>
+								<option th:each="c : ${T(com.team.Spring.Enum.CountryEnum).values()}" th:value="${c}"
+									th:text="${c}">
+								</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<select id="filterJoinPolicy" class="form-select">
+								<option value="">All join policies</option>
+								<option value="OPEN">Open</option>
+								<option value="REQUEST">Request</option>
+								<option value="CLOSED">Closed</option>
+							</select>
+						</div>
+					</div>
+					<div id="publicRoomsContainer">
+						<div class="mt-3 scroll-area">
+							<div th:if="${publicRooms == null or #lists.isEmpty(publicRooms)}"
+								class="text-muted small text-center no-res-found">No public rooms available yet.
+							</div>
+							<div id="publicNoResults" class="text-muted small text-center mt-3 no-res-found"
+								style="display:none;">
+								No matches found
+							</div>
+							<div th:each="r : ${publicRooms}" class="mb-2">
+								<div class="p-2 room-card d-flex justify-content-between align-items-center"
+									th:data-name="${#strings.toLowerCase(r.name)}"
+									th:data-description="${#strings.toLowerCase(r.description)}"
+									th:data-country="${r.preferredCountry}" th:data-join-policy="${r.joinPolicy}">
+									<div>
+										<div class="fw-semibold" th:text="${r.name}">Room name</div>
+										<div class="small-muted" th:text="${r.description}">Short description</div>
+									</div>
+									<div class="d-flex gap-2 align-items-center">
+										<div class="p-2 d-flex flex-column justify-content-between align-items-center">
+											<small class="small-muted">
+												<i class="bi bi-people"></i>
+												<span th:classappend="${r.full} ? text-danger"
+													th:text="${r.memberCount + ' / ' + r.maxMembers}"></span>
+											</small>
+											<small class="small-muted">
+												<i class="bi bi-globe"></i>
+												<span th:text="${r.preferredCountry}"></span>
+											</small>
+										</div>
+										<div>
+											<div class="btn-group gap-2">
+												<form th:if="${r.joinPolicy.name() == 'OPEN'}"
+													th:action="@{/joinRoom/{id}(id=${r.id})}" method="post">
+													<button type="submit" class="btn btn-sm"
+														th:classappend="${r.full} ? 'btn-secondary' : 'btn-primary'"
+														th:disabled="${r.full}">
+														<i class="bi"
+															th:classappend="${r.full} ? 'bi-lock-fill' : 'bi-box-arrow-in-right'"></i>
+														<span th:text="${r.full ? 'Full' : 'Join'}"></span>
+													</button>
+												</form>
+												<form th:if="${r.joinPolicy.name() == 'REQUEST'}"
+													th:action="@{/requestToJoinRoom/{id}(id=${r.id})}" method="post">
+													<button type="submit" class="btn btn-sm"
+														th:classappend="${r.full} ? 'btn-secondary' : 'btn-primary'">
+														<i class="bi"
+															th:classappend="${r.full} ? 'bi-lock-fill' : 'bi-send'"></i>
+														<span th:text="${r.full ? 'Full' : 'Request to Join'}"></span>
+													</button>
+												</form>
+												<block th:if="${r.joinPolicy.name() == 'CLOSED'}">
+													<button class=" btn btn-sm btn-outline-closed" aria-expanded="false"
+														disabled>
+														<i class="bi"
+															th:classappend="${r.full} ? 'bi-lock-fill' : 'bi-lock'"></i>
+														<span th:text="${r.full ? 'Full' : 'Closed'}"></span>
+													</button>
+												</block>
+												<button
+													class="btn btn-sm btn-outline-secondary border-top-left-radius-5px"
+													aria-expanded="false" th:data-room-id="${r.id}"
+													onclick="openShareModal(this)">
+													<i class="bi bi-share"></i>
+													<span>Share</span>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Share Room Modal -->
+	<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content app-card border-0">
+				<div class="modal-body text-center">
+					<div class="modal-header gap-2">
+						<span class="badge bg-primary rounded-pill p-2">
+							<i class="bi bi-chat-dots-fill fs-5"></i>
+						</span>
+						<h5 class="modal-title" id="shareLabel">Real-Time ChatApp</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<!-- Share link -->
+					<input id="shareLink" class="form-control mb-3" readonly>
+
+					<!-- Copy -->
+					<button class="btn btn-primary w-100 mb-3" onclick="copyShareLink()">
+						<i class="bi bi-clipboard"></i>
+						Copy link
+					</button>
+
+					<div class="text-muted small mb-2">Share via</div>
+
+					<!-- Share via buttons -->
+					<div class="d-flex justify-content-center gap-3">
+						<button class="btn btn-outline-success" onclick="shareWhatsApp()">
+							<i class="bi bi-whatsapp"></i>
+						</button>
+
+						<button class="btn btn-outline-primary" onclick="shareTelegram()">
+							<i class="bi bi-telegram"></i>
+						</button>
+
+						<button class="btn btn-outline-secondary" onclick="shareEmail()">
+							<i class="bi bi-envelope"></i>
+						</button>
+
+						<button class="btn btn-outline-dark" onclick="shareTwitter()">
+							<i class="bi bi-twitter-x"></i>
+						</button>
+					</div>
+					<div class="modal-footer mt-2">
+						<button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+				<!-- Copy Link Toast -->
+				<div class="toast-container position-fixed bottom-0 end-0 p-3">
+					<div id="copyToast" class="toast align-items-center text-bg-dark border-0" role="alert"
+						aria-live="assertive" aria-atomic="true">
+						<div class="d-flex">
+							<div class="toast-body">
+								<i class="bi bi-check-circle me-2 text-success"></i>
+								Link copied to clipboard
+							</div>
+							<button type="button" class="btn-close btn-close-white me-2 m-auto"
+								data-bs-dismiss="toast"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Confirm Action Modal -->
+	<div class="modal fade" id="confirmActionModal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content border-0 shadow">
+				<div class="modal-header">
+					<h5 class="modal-title" id="confirmTitle">Confirm action</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+
+				<div class="modal-body" id="confirmMessage">
+					Are you sure?
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light" data-bs-dismiss="modal">
+						Cancel
+					</button>
+					<button type="button" id="confirmBtn" class="btn">
+						Confirm
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script th:src="@{/js/home.js}"></script>
+
+</body>
+
+</html>

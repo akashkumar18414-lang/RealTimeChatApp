@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#eaf2ff" />
+  <link rel="stylesheet" th:href="@{/css/error/401.css}">
+  <title>401 Unauthorized</title>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg" aria-hidden="true">
+    <!-- Dotted grid (SVG pattern) -->
+    <svg class="grid" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.25" fill="#e2eaf9"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dots)"/>
+    </svg>
+
+    <!-- Aurora blobs -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    <!-- Clouds layer -->
+    <div class="cloud-layer">
+      <!-- Cloud 1 -->
+      <svg class="cloud c1" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#f1f6ff" stroke="#d8e7ff" stroke-width="2">
+          <ellipse cx="80" cy="90" rx="70" ry="40"/>
+          <ellipse cx="150" cy="80" rx="60" ry="45"/>
+          <ellipse cx="220" cy="95" rx="80" ry="50"/>
+          <ellipse cx="290" cy="90" rx="50" ry="35"/>
+        </g>
+      </svg>
+      <!-- Cloud 2 -->
+      <svg class="cloud c2" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#eef4ff" stroke="#d1e2ff" stroke-width="2">
+          <ellipse cx="90" cy="86" rx="70" ry="38"/>
+          <ellipse cx="160" cy="78" rx="60" ry="42"/>
+          <ellipse cx="230" cy="96" rx="80" ry="48"/>
+        </g>
+      </svg>
+      <!-- Cloud 3 -->
+      <svg class="cloud c3" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#f3f7ff" stroke="#dbe8ff" stroke-width="2">
+          <ellipse cx="70" cy="96" rx="60" ry="36"/>
+          <ellipse cx="140" cy="86" rx="70" ry="44"/>
+          <ellipse cx="210" cy="98" rx="80" ry="46"/>
+          <ellipse cx="280" cy="96" rx="50" ry="32"/>
+        </g>
+      </svg>
+      <!-- Cloud 4 -->
+      <svg class="cloud c4" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#eef4ff" stroke="#d1e2ff" stroke-width="2">
+          <ellipse cx="100" cy="92" rx="70" ry="40"/>
+          <ellipse cx="180" cy="82" rx="65" ry="42"/>
+          <ellipse cx="255" cy="98" rx="85" ry="48"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Foreground -->
+  <div class="wrap">
+    <main class="card" role="main" aria-labelledby="title">
+      <div class="illustration" aria-hidden="true">
+        <div class="halo"></div>
+        <div class="sparkle"></div>
+        <!-- Friendly inline SVG lock -->
+        <svg class="lock" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#a7c5ff"/>
+              <stop offset="100%" stop-color="#4d8dff"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#eaf2ff"/>
+              <stop offset="100%" stop-color="#cfe0ff"/>
+            </linearGradient>
+          </defs>
+          <!-- Shackle -->
+          <path d="M64 120V96c0-37 27-64 64-64s64 27 64 64v24"
+                fill="none" stroke="url(#g1)" stroke-width="16" stroke-linecap="round"/>
+          <!-- Body -->
+          <rect x="44" y="116" width="168" height="120" rx="20" fill="url(#g2)" stroke="url(#g1)" stroke-width="2"/>
+          <!-- Keyhole plate -->
+          <circle cx="128" cy="172" r="24" fill="#ffffff" stroke="url(#g1)" stroke-width="2"/>
+          <!-- Keyhole -->
+          <path d="M128 160c6 0 10 4 10 10 0 4-2 7-5 9v15h-10v-15c-3-2-5-5-5-9 0-6 4-10 10-10z"
+                fill="url(#g1)"/>
+          <!-- Subtle cartoon eyes for friendliness -->
+          <circle cx="98" cy="152" r="4" fill="#7db0ff"/>
+          <circle cx="158" cy="152" r="4" fill="#7db0ff"/>
+        </svg>
+      </div>
+
+      <header class="header">
+        <div class="status" aria-hidden="true">401</div>
+        <h1 id="title" class="title">Unauthorized</h1>
+        <p class="desc">You are not authorized to access this page.</p>
+      </header>
+
+      <div class="actions">
+        <button id="loginBtn" class="btn" type="button" aria-label="Login">Login</button>
+      </div>
+    </main>
+  </div>
+
+  <noscript>
+    <style>
+      .card { transform: none !important; }
+    </style>
+  </noscript>
+
+  <script th:src="@{/js/error/401.js}"></script>
+</body>
+</html>

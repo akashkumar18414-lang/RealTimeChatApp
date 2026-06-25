@@ -1,0 +1,379 @@
+/* ---------- Mobile-first base ---------- */
+:root {
+	--accent: #0b78ff;
+	--accent-dark: #055fcc;
+	--card-bg: #ffffff;
+	--surface-shadow: 0 10px 30px rgba(12, 32, 63, 0.06);
+	--muted: #6b7280;
+	--radius: 12px;
+	--social-ghost: #f6f8ff;
+}
+
+* {
+	box-sizing: border-box
+}
+
+html,
+body {
+	height: 100%
+}
+
+body {
+	margin: 0;
+	font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+	background: linear-gradient(180deg, #fbfdff 0%, #f6f8ff 100%);
+	color: #071233;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	min-height: 100vh;
+	padding: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Wrapper keeps content centered and constrained */
+.container-auth {
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+/* Mobile stacked layout: brand then form */
+.auth-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	align-items: stretch;
+}
+
+.brand-panel {
+	padding: 18px;
+	border-radius: var(--radius);
+	background: linear-gradient(180deg, rgba(11, 120, 255, 0.04), rgba(11, 120, 255, 0.01));
+	box-shadow: 0 6px 18px rgba(11, 120, 255, 0.02);
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	align-items: flex-start;
+}
+
+.brand-logo {
+	display: flex;
+	align-items: center;
+	gap: 12px
+}
+
+.logo-mark {
+	width: 48px;
+	height: 48px;
+	border-radius: 10px;
+	display: inline-grid;
+	place-items: center;
+	background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+	color: white;
+	font-weight: 700;
+	font-size: 18px;
+	box-shadow: 0 6px 14px rgba(11, 120, 255, 0.12);
+}
+
+.brand-title {
+	font-size: 20px;
+	font-weight: 700;
+	color: #071233
+}
+
+.brand-sub {
+	color: var(--muted);
+	font-size: 13px;
+	line-height: 1.45
+}
+
+.features {
+	margin-top: 6px;
+	display: grid;
+	gap: 10px;
+	grid-template-columns: 1fr;
+	width: 100%;
+}
+
+.feature {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	background: transparent;
+	padding: 10px 6px;
+}
+
+.feature .icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 10px;
+	display: grid;
+	place-items: center;
+	background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+	color: white;
+	font-weight: 700;
+	flex-shrink: 0;
+}
+
+.feature h4 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.feature p {
+	margin: 4px 0 0 0;
+	font-size: 13px;
+	color: var(--muted);
+	line-height: 1.35;
+}
+
+/* Card */
+.login-card {
+	background: var(--card-bg);
+	padding: 18px;
+	border-radius: var(--radius);
+	box-shadow: var(--surface-shadow);
+	width: 100%;
+	text-align: left;
+}
+
+.login-card h2 {
+	margin: 0 0 6px 0;
+	font-size: 18px;
+	font-weight: 700
+}
+
+.login-card p.lead {
+	margin: 0 0 12px 0;
+	color: var(--muted);
+	font-size: 13px
+}
+
+.form-control {
+	height: 44px;
+	border-radius: 10px;
+	padding: 0 12px;
+	border: 1px solid #eef2ff;
+	transition: border-color .12s, box-shadow .12s;
+	background: transparent;
+}
+
+.form-control:focus {
+	border-color: rgba(11, 120, 255, 0.9);
+	outline: none;
+	box-shadow: 0 8px 18px rgba(11, 120, 255, 0.06)
+}
+
+.input-group {
+	position: relative;
+	width: 100%
+}
+
+.password-toggle {
+	position: absolute;
+	top: 50%;
+	right: 8px;
+	transform: translateY(-50%);
+	border: none;
+	background: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: var(--accent);
+	border-radius: 8px;
+	padding: 6px;
+	font-size: 14px;
+}
+
+.password-toggle:focus {
+	outline: 2px solid rgba(11, 120, 255, 0.12)
+}
+
+.login-btn {
+	width: 100%;
+	padding: 12px 14px;
+	background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+	color: white;
+	border: none;
+	border-radius: 10px;
+	font-size: 15px;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 12px;
+	box-shadow: 0 8px 22px rgba(11, 120, 255, 0.12);
+}
+
+.login-btn:active {
+	transform: translateY(1px)
+}
+
+.meta-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	margin-top: 12px;
+	flex-wrap: wrap
+}
+
+.link {
+	color: var(--accent);
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 14px
+}
+
+.muted {
+	color: var(--muted);
+	font-size: 13px
+}
+
+.divider {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-top: 16px;
+	margin-bottom: 10px;
+}
+
+.divider::before,
+.divider::after {
+	content: "";
+	height: 1px;
+	background: #eef4ff;
+	flex: 1;
+	border-radius: 2px;
+}
+
+.social-btns {
+	display: flex;
+	gap: 10px;
+	flex-direction: column;
+	margin-top: 6px
+}
+
+.social {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	justify-content: center;
+	padding: 10px 12px;
+	border-radius: 10px;
+	font-weight: 600;
+	cursor: pointer;
+	border: 1px solid transparent;
+	background: var(--social-ghost);
+	text-decoration: none;
+	color: #071233;
+	transition: box-shadow .12s, transform .06s;
+	white-space: nowrap;
+}
+
+.social svg {
+	display: block
+}
+
+.social-google {
+	border-color: rgba(0, 0, 0, 0.06)
+}
+
+.social-facebook {
+	background: #1877f2;
+	color: white;
+	border-color: rgba(24, 119, 242, 0.12)
+}
+
+.social-github {
+	background: #111827;
+	color: white;
+	border-color: rgba(0, 0, 0, 0.2)
+}
+
+.signup {
+	margin-top: 16px;
+	text-align: center;
+	color: var(--muted);
+	font-size: 14px
+}
+
+.signup a {
+	color: var(--accent);
+	font-weight: 700;
+	text-decoration: none;
+	margin-left: 6px
+}
+
+.page-footer {
+	margin-top: 14px;
+	text-align: center;
+	color: var(--muted);
+	font-size: 13px
+}
+
+/* ---------- Tablet & up: switch to two-column ---------- */
+@media (min-width: 760px) {
+	.auth-stack {
+		display: grid;
+		grid-template-columns: 1fr 420px;
+		gap: 28px;
+		align-items: center;
+	}
+
+	.brand-panel {
+		padding: 32px;
+		border-radius: 14px;
+	}
+
+	.login-card {
+		padding: 24px;
+	}
+
+	.brand-title {
+		font-size: 24px
+	}
+
+	.brand-sub {
+		max-width: 46ch
+	}
+
+	/* social buttons in a row */
+	.social-btns {
+		flex-direction: row
+	}
+
+	.social {
+		flex: 1;
+	}
+}
+
+/* ---------- Desktop polish ---------- */
+@media (min-width: 1100px) {
+	.container-auth {
+		max-width: 1100px;
+	}
+
+	.brand-panel {
+		padding: 48px;
+	}
+
+	.login-card {
+		padding: 28px;
+	}
+}
+
+/* Slightly larger tappable targets for very small devices */
+@media (max-width:420px) {
+	.social {
+		padding: 12px 14px;
+		font-size: 15px;
+	}
+
+	.login-btn {
+		padding: 14px 16px;
+		font-size: 16px;
+	}
+}

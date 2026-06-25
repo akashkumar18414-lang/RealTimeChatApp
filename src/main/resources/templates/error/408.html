@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>408 Request Timeout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <link rel="stylesheet" th:href="@{/css/error/408.css}">
+</head>
+<body>
+  <!-- Soft floating background blobs -->
+  <div class="decor" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <main class="card" role="main" aria-labelledby="page-title">
+    <div class="hero">
+      <div class="copy">
+        <h1 class="code" aria-describedby="code-desc">408</h1>
+        <span id="code-desc" class="sr-only">Status code four hundred eight</span>
+        <h2 id="page-title" class="title">Request Timeout</h2>
+        <p class="message">The server took too long to respond. Please try again.</p>
+      </div>
+
+      <!-- Illustration: Interactive Hourglass -->
+      <section class="illo" aria-label="Interactive hourglass illustrating time passing">
+        <div class="hourglass-wrap">
+          <button class="hourglass-btn" id="hourglassBtn"
+            aria-label="Flip the hourglass" aria-keyshortcuts="Enter Space T R"
+            title="Flip (click/Enter/Space), T = time warp, R = retry">
+          </button>
+
+          <!-- Inline SVG Hourglass -->
+          <svg class="hourglass" id="hourglass" viewBox="0 0 220 260" role="img" aria-label="A modern blue hourglass with falling sand">
+            <defs>
+              <linearGradient id="sandFill" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="var(--sand)" />
+                <stop offset="100%" stop-color="var(--sand-dark)" />
+              </linearGradient>
+              <!-- Clip areas shaped around bulbs -->
+              <clipPath id="clipTop">
+                <path d="M76,32
+                         Q110,22 144,32
+                         Q132,66 120,92
+                         Q115,108 110,118
+                         Q105,108 100,92
+                         Q88,66 76,32 Z" />
+              </clipPath>
+              <clipPath id="clipBottom">
+                <path d="M144,228
+                         Q110,238 76,228
+                         Q88,194 100,168
+                         Q105,152 110,142
+                         Q115,152 120,168
+                         Q132,194 144,228 Z" />
+              </clipPath>
+            </defs>
+
+            <!-- Stand and lips -->
+            <g class="stand" opacity="0.6">
+              <line x1="32" y1="248" x2="188" y2="248"/>
+              <line x1="40" y1="20" x2="180" y2="20" class="lip"/>
+              <line x1="40" y1="240" x2="180" y2="240" class="lip"/>
+            </g>
+
+            <!-- Glass outline curves -->
+            <path class="glass" fill="none"
+              d="M75,24 Q110,16 145,24 M75,234 Q110,242 145,234" />
+            <path class="glass" fill="none"
+              d="M75,24 C70,70 90,100 110,128 C90,156 70,186 75,234" />
+            <path class="glass" fill="none"
+              d="M145,24 C150,70 130,100 110,128 C130,156 150,186 145,234" />
+
+            <!-- Highlights -->
+            <path class="glare" d="M88,36 C82,86 100,98 106,118 C86,86 70,70 76,24 Z"/>
+            <path class="glare" d="M132,244 C138,194 120,182 114,162 C134,194 150,210 144,236 Z"/>
+
+            <!-- Top sand (drains) -->
+            <g clip-path="url(#clipTop)">
+              <rect class="top-sand sand" x="80" y="34" width="60" height="92" rx="6" />
+              <rect class="top-sand sand-dark" x="80" y="34" width="60" height="92" rx="6" />
+            </g>
+
+            <!-- Falling stream + micro particles at the neck -->
+            <rect class="flow sand" x="109" y="120" width="2" height="22" rx="1" />
+            <circle class="particle p1 sand" cx="110" cy="122" r="1.8"/>
+            <circle class="particle p2 sand" cx="110" cy="122" r="1.6"/>
+            <circle class="particle p3 sand" cx="110" cy="122" r="1.4"/>
+
+            <!-- Bottom sand (fills) -->
+            <g clip-path="url(#clipBottom)">
+              <rect class="bottom-sand sand" x="80" y="144" width="60" height="90" rx="6" />
+              <rect class="bottom-sand sand-dark" x="80" y="144" width="60" height="90" rx="6" />
+            </g>
+          </svg>
+        </div>
+        <p class="hint" aria-hidden="true">Click to flip • press T to time-warp • press R to retry.</p>
+      </section>
+    </div>
+
+    <div class="actions">
+      <button id="retryBtn" class="btn" type="button" aria-label="Retry loading this page" aria-keyshortcuts="R">
+        Retry <span class="arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+
+    <div id="status" class="sr-only" role="status" aria-live="polite"></div>
+  </main>
+
+  <script th:src="@{/js/error/408.js}"></script>
+</body>
+</html>

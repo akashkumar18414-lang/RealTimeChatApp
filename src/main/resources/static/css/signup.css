@@ -1,0 +1,338 @@
+:root {
+	--accent: #0b78ff;
+	--accent-600: #055fcc;
+	--muted: #6b7280;
+	--bg1: #fbfdff;
+	--card: #fff;
+	--radius: 14px;
+	--form-width: 560px;
+	/* wider form */
+	--max-width: 1250px;
+}
+
+* {
+	box-sizing: border-box
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+	color: #071233
+}
+
+body {
+	background: linear-gradient(135deg, var(--bg1) 0%, #f3f8ff 100%);
+	-webkit-font-smoothing: antialiased;
+	padding: 24px;
+	overflow: hidden;
+	/* prevents outer scroll at 1920x1080 */
+}
+
+/* Container grid */
+.wrap {
+	width: 100%;
+	max-width: var(--max-width);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr var(--form-width);
+	gap: 36px;
+	align-items: center;
+	height: calc(100vh - 48px);
+}
+
+/* Left marketing panel */
+.left {
+	background: linear-gradient(180deg, rgba(11, 120, 255, 0.06), rgba(11, 120, 255, 0.02));
+	padding: 40px;
+	border-radius: var(--radius);
+	box-shadow: 0 14px 36px rgba(11, 120, 255, 0.04);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	justify-content: center;
+}
+
+.brand {
+	display: flex;
+	gap: 14px;
+	align-items: center
+}
+
+.logo {
+	width: 60px;
+	height: 60px;
+	border-radius: 12px;
+	display: grid;
+	place-items: center;
+	background: linear-gradient(180deg, var(--accent), var(--accent-600));
+	color: #fff;
+	font-weight: 800
+}
+
+.brand-title {
+	font-size: 26px;
+	font-weight: 800;
+	margin: 0
+}
+
+.brand-sub {
+	color: var(--muted);
+	font-size: 13px;
+	margin-top: 4px
+}
+
+.panel-copy {
+	color: var(--muted);
+	line-height: 1.6;
+	max-width: 62ch;
+	font-size: 15px
+}
+
+.features {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-top: 10px
+}
+
+.feature {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start
+}
+
+.ficon {
+	width: 44px;
+	height: 44px;
+	border-radius: 10px;
+	display: grid;
+	place-items: center;
+	background: linear-gradient(180deg, var(--accent), var(--accent-600));
+	color: #fff;
+	font-weight: 700
+}
+
+.ftext {
+	font-weight: 700;
+	font-size: 15px
+}
+
+.fsub {
+	color: var(--muted);
+	font-size: 13px
+}
+
+/* Right card (form) */
+.card {
+	background: var(--card);
+	padding: 22px;
+	border-radius: var(--radius);
+	box-shadow: 0 18px 44px rgba(12, 32, 63, 0.06);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.heading {
+	font-size: 20px;
+	margin: 0 0 6px 0;
+	font-weight: 800
+}
+
+.sub {
+	color: var(--muted);
+	font-size: 13px;
+	margin: 0 0 12px 0
+}
+
+/* Fields */
+.field {
+	margin-bottom: 12px
+}
+
+.input {
+	width: 100%;
+	height: 46px;
+	padding: 0 14px;
+	border-radius: 10px;
+	border: 1px solid #eef6ff;
+	font-size: 15px;
+	background: transparent;
+}
+
+.input::placeholder {
+	color: #9fb0c9
+}
+
+.input:focus {
+	outline: none;
+	box-shadow: 0 12px 28px rgba(11, 120, 255, 0.06);
+	border-color: rgba(11, 120, 255, 0.85)
+}
+
+.pw-wrap {
+	position: relative
+}
+
+.pw-toggle {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	border: 0;
+	background: none;
+	padding: 6px;
+	cursor: pointer;
+	color: var(--accent);
+	border-radius: 8px;
+}
+
+.hint {
+	font-size: 12px;
+	color: var(--muted);
+	margin-top: 6px
+}
+
+.terms {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 8px;
+	color: var(--muted);
+	font-size: 13px
+}
+
+.terms input {
+	transform: scale(1.05)
+}
+
+.btn {
+	width: 100%;
+	padding: 12px;
+	border-radius: 10px;
+	border: 0;
+	background: linear-gradient(180deg, var(--accent), var(--accent-600));
+	color: #fff;
+	font-weight: 800;
+	cursor: pointer;
+	margin-top: 12px;
+	box-shadow: 0 16px 36px rgba(11, 120, 255, 0.14);
+	font-size: 15px;
+}
+
+.divider {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 18px 0
+}
+
+.divider::before,
+.divider::after {
+	content: "";
+	height: 1px;
+	background: #eef6ff;
+	flex: 1;
+	border-radius: 2px
+}
+
+.divider span {
+	color: var(--muted);
+	font-size: 13px
+}
+
+.socials {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	flex-wrap: wrap
+}
+
+.social {
+	flex: 1;
+	min-width: 140px;
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.04);
+	background: #f7f9ff;
+	color: #071233;
+	text-decoration: none;
+	font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center
+}
+
+.social.facebook {
+	background: #1877f2;
+	color: white
+}
+
+.social.github {
+	background: #0b1115;
+	color: white
+}
+
+.page-footer {
+	margin-top: 14px;
+	text-align: center;
+	color: var(--muted);
+	font-size: 13px
+}
+
+.foot {
+	font-size: 13px;
+	color: var(--muted);
+	text-align: center;
+	margin-top: 12px
+}
+
+/* responsive: keep layout but allow page scroll on small screens */
+@media (max-width:1100px) {
+	.wrap {
+		grid-template-columns: 1fr calc(var(--form-width) - 40px);
+		gap: 22px
+	}
+
+	.left {
+		padding: 28px
+	}
+
+	.card {
+		padding: 18px
+	}
+}
+
+@media (max-width:760px) {
+	body {
+		overflow: auto
+	}
+
+	/* allow page scroll on small devices */
+	.wrap {
+		grid-template-columns: 1fr;
+		gap: 18px;
+		height: auto
+	}
+
+	.left {
+		order: 2;
+		padding: 18px
+	}
+
+	.card {
+		order: 1;
+		padding: 18px
+	}
+
+	.socials {
+		flex-direction: row
+	}
+}
+
+/* If you're running with display scaling >100% you might still see a tiny scrollbar.
+     Tell me zoom/scale if that happens and I'll micro-tune. */

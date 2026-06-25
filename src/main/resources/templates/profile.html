@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #ffffff);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 400px;
+            margin: 80px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: #4a90e2;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        .name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .email {
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .info p {
+            margin: 8px 0;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 8px 16px;
+            background: #4a90e2;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            background: #357abd;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <!-- Avatar -->
+        <div class="avatar" th:text="${user.fullName.substring(0,1)}"></div>
+
+        <!-- Name -->
+        <div class="name" th:text="${user.fullName}"></div>
+
+        <!-- Email -->
+        <div class="email" th:text="${user.email}"></div>
+
+        <!-- Info -->
+        <div class="info">
+            <p><b>Username:</b> <span th:text="${user.username}"></span></p>
+            <p><b>Phone:</b> <span th:text="${user.phone}"></span></p>
+        </div>
+
+        <!-- Back -->
+        <button onclick="history.back()" class="back-btn">⬅ Back</button>
+
+    </div>
+</div>
+
+</body>
+</html>

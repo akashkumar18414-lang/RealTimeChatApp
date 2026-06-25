@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#eaf2ff" />
+  <link rel="stylesheet" th:href="@{/css/error/404.css}">
+  <title>404 Not Found</title>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg" aria-hidden="true">
+    <!-- Dotted grid (SVG pattern) -->
+    <svg class="grid" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.25" fill="#e2eaf9"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dots)"/>
+    </svg>
+
+    <!-- Aurora blobs -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    <!-- Clouds layer -->
+    <div class="cloud-layer">
+      <!-- Cloud 1 -->
+      <svg class="cloud c1" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#f1f6ff" stroke="#d8e7ff" stroke-width="2">
+          <ellipse cx="80" cy="90" rx="70" ry="40"/>
+          <ellipse cx="150" cy="80" rx="60" ry="45"/>
+          <ellipse cx="220" cy="95" rx="80" ry="50"/>
+          <ellipse cx="290" cy="90" rx="50" ry="35"/>
+        </g>
+      </svg>
+      <!-- Cloud 2 -->
+      <svg class="cloud c2" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#eef4ff" stroke="#d1e2ff" stroke-width="2">
+          <ellipse cx="90" cy="86" rx="70" ry="38"/>
+          <ellipse cx="160" cy="78" rx="60" ry="42"/>
+          <ellipse cx="230" cy="96" rx="80" ry="48"/>
+        </g>
+      </svg>
+      <!-- Cloud 3 -->
+      <svg class="cloud c3" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#f3f7ff" stroke="#dbe8ff" stroke-width="2">
+          <ellipse cx="70" cy="96" rx="60" ry="36"/>
+          <ellipse cx="140" cy="86" rx="70" ry="44"/>
+          <ellipse cx="210" cy="98" rx="80" ry="46"/>
+          <ellipse cx="280" cy="96" rx="50" ry="32"/>
+        </g>
+      </svg>
+      <!-- Cloud 4 -->
+      <svg class="cloud c4" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#eef4ff" stroke="#d1e2ff" stroke-width="2">
+          <ellipse cx="100" cy="92" rx="70" ry="40"/>
+          <ellipse cx="180" cy="82" rx="65" ry="42"/>
+          <ellipse cx="255" cy="98" rx="85" ry="48"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Foreground -->
+  <div class="wrap">
+    <main class="card" role="main" aria-labelledby="title">
+      <div class="illustration" aria-hidden="true">
+        <div class="halo"></div>
+        <div class="sparkle"></div>
+        <!-- Broken light bulb (inline SVG) -->
+        <svg class="bulb" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="bBody" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f6faff"/>
+              <stop offset="100%" stop-color="#e7f0ff"/>
+            </linearGradient>
+            <linearGradient id="bStroke" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#a7c5ff"/>
+              <stop offset="100%" stop-color="#4d8dff"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Soft circle backdrop inside SVG (optional) -->
+          <circle cx="128" cy="120" r="84" fill="#f0f5ff" opacity=".6"/>
+
+          <!-- Glass bulb body -->
+          <path d="M84 164c-16-14-28-28-28-50 0-38 33-68 72-68s72 30 72 68c0 22-12 36-28 50H84z"
+                fill="url(#bBody)" stroke="url(#bStroke)" stroke-width="2"/>
+
+          <!-- Broken top shards -->
+          <path d="M100 68l14-18 8 20 16-16 8 22 14-10" fill="none" stroke="#7db0ff" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- Outline sides -->
+          <path d="M84 164c-16-14-28-28-28-50 0-38 33-68 72-68
+                   M172 164c16-14 28-28 28-50 0-38-33-68-72-68"
+                fill="none" stroke="#1f5fe6" stroke-width="2"/>
+
+          <!-- Filament cracks -->
+          <path d="M124 88v40" stroke="#2b77ff" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+          <path d="M140 86l-12 30" stroke="#2b77ff" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+          <path d="M110 98l20 28" stroke="#2b77ff" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+
+          <!-- Base -->
+          <rect x="92" y="164" width="72" height="12" rx="6" fill="#2b77ff"/>
+          <path d="M92 182h72M92 196h72M92 210h72" stroke="#2b77ff" stroke-width="8" stroke-linecap="round"/>
+          <ellipse cx="128" cy="222" rx="16" ry="6" fill="#1f5fe6"/>
+        </svg>
+      </div>
+
+      <header class="header">
+        <div class="status" aria-hidden="true">404</div>
+        <h1 id="title" class="title">Oops! Page Not Found</h1>
+        <p class="desc">The page you are looking for doesn’t exist or has been moved.</p>
+      </header>
+
+      <div class="actions">
+        <button id="backBtn" class="btn" type="button" aria-label="Go Back">⬅️ Go Back</button>
+      </div>
+    </main>
+  </div>
+
+  <noscript>
+    <style>
+      .card { transform: none !important; }
+    </style>
+    <p style="text-align:center;margin-top:10px;">
+      JavaScript is disabled. <button onclick="window.history.back()" style="color:#2b77ff;text-underline-offset:3px;">⬅️ Go Back</button>
+    </p>
+  </noscript>
+
+  <script th:src="@{/js/error/404.js}"></script>
+</body>
+</html>
